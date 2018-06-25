@@ -8,8 +8,7 @@
 
 #include <stdio.h>
 
-#define POLY_MASK16 0xD295
-#define POLY_MASK15 0x6699
+#define SEED 3
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)  \
@@ -40,6 +39,10 @@ uint16_t shift(uint16_t lfsr, uint16_t newBit) {
 
 uint16_t getRandom() {
     uint16_t result;
+    if (lfsr16N == 0) {
+        //se tiver zerado, colocar a seed e iniciar novo ciclo
+        lfsr16N = SEED;
+    }
     printf("\nRAntes:\t"BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(lfsr16N>>8));
     printf(""BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(lfsr16N));
     //lfsr16N = ((lfsr16N >> 1) & 1);
@@ -58,7 +61,7 @@ uint16_t getRandom() {
 void init(void) {
     //seed values
     
-    lfsr16N =3;
+    lfsr16N = SEED;
 }
 
 int main(int argc, const char * argv[]) {
